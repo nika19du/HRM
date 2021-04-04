@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Castle.Core" Version="4.4.1" />
+    <PackageReference Include="CloudinaryDotNet" Version="1.15.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.4" />
+    <PackageReference Include="NETCore.MailKit" Version="2.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HRM.Data\HRM.Data.csproj" />
+    <ProjectReference Include="..\HRM.InputModel\HRM.InputModel.csproj" />
+    <ProjectReference Include="..\HRM.ViewModel\HRM.ViewModel.csproj" />
+  </ItemGroup>
+
+</Project>

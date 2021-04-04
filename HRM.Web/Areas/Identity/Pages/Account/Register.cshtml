@@ -1,0 +1,68 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  
+<div class="container register-form">
+    <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <div class="note">
+            <p>Create Account</p>
+        </div>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-content">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="text" asp-for="Input.UserName" class="form-control" placeholder="User Name *" value="" />
+                        <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" asp-for="Input.FirstName" class="form-control" placeholder="First Name *" value="" />
+                        <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" asp-for="Input.MiddleName" class="form-control" placeholder="Middle Name *" value="" />
+                        <span asp-validation-for="Input.MiddleName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" asp-for="Input.Surname" class="form-control" placeholder="Surname *" value="" />
+                        <span asp-validation-for="Input.Surname" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" asp-for="Input.PhoneNumber" class="form-control" placeholder="Phone Number *" value="" />
+                        <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input  asp-for="Input.Email" class="form-control" placeholder="Email *" value="" />
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" asp-for="Input.EGN" class="form-control" placeholder="Your EGN *" value="" />
+                        <span asp-validation-for="Input.EGN" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" asp-for="Input.Password" class="form-control" placeholder="Your Password *" value="" />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" asp-for="Input.ConfirmPassword" class="form-control" placeholder="Confirm Password *" value="" />
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btnSubmit justify-content-center">Submit</button>
+            @*<button type="submit" class="btn btn-primary">Register</button>*@
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

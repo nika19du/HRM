@@ -1,0 +1,169 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model HRM.ViewModel.Rooms.RoomsAllViewModel 
+@{
+    ViewData["Title"] = "Create";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+@using X.PagedList.Mvc.Core.Common;
+
+<style>
+    h1 {
+        font-size: 12px;
+    }
+
+    h2 {
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    h3 {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    h4 {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    h5 {
+        font-size: 12px;
+    }
+
+    h6 {
+        font-size: 12px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+
+    img {
+        width: 120%;
+        height: 100%;
+    }
+</style>
+<div class="col-md-9">
+    <div class="row">
+        <div class="col-md-12">
+            <a asp-area="Administration"
+               asp-controller="Rooms"
+               asp-action="Create"
+               class="btn btn-secondary ml-auto">
+                <i class="fas fa-plus"></i>
+            </a>
+            <h2> Rooms: @Model.Rooms.Count() properties found </h2>
+            <p> 3 Reasons to Visit: gambling, entertainment & relaxation </p>
+        </div>
+    </div>
+    <form asp-action="Create" method="post" enctype="multipart/form-data">  
+        <div class="row"> 
+            <div class="col-md-12">
+                <ul class="nav nav-justified nav-pills">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/Administration/Rooms/All" value="Active" name="submitBtn">Active</a>
+                    </li> 
+                    <li class="nav-item">
+                        <a class="nav-link bg-light pointer" onclick="notActiveConfirm();" value="NotActive" name="submitBtn">
+                            Not Active
+                            <script type="text/javascript">
+                                function notActiveConfirm() { 
+                                    submitBtn="NotActive";
+                                    window.location.href = "/Administration/Rooms/All?submitBtn=" + submitBtn;
+                                }
+                            </script>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            @foreach (var room in Model.Rooms)
+            {
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <img src="@room.Image">
+                                    </div>
+                                    <div class="col-md-6  card-body">
+                                        <div class="col-6">
+                                            <div class="list-title">
+                                                <ul class="list-inline list-unstyled">
+                                                    <li class="list-inline-item"><a href="/Administration/Rooms/Details/@room.Id"><h4>@room.RoomType.Name.ToUpper() Room</h4></a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="list-descrip">
+                                                <small>Number of rooms: @room.Number</small>
+                                                <p>Capacity: @room.Capacity</p>
+                                                <p>Addult price: @room.AdultPrice.ToString("F2")$</p>
+                                                <p>Child price: @room.ChildPrice.ToString("F2")$</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 border-left card-body">
+                                        @if (User.IsInRole("Admin"))
+                                        {
+
+                                            <a type="button" asp-controller="Rooms" asp-action="Edit" asp-route-id="@room.Id" class="btn btn-outline-primary">Edit Now</a>
+                                            <hr />
+                                            <button type="button" class="btn btn-danger btn-block" onclick="fnConfirm();" runat="server" id="lbDelete"
+                                                    data-url="@Url.Action($"Delete/{@room.Id}")">
+                                                <i class="fas fa-trash-alt" onclick="fnConfirm();"></i>
+                                                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+                        <script type="text/javascript">
+                                                    function fnConfirm()
+                                                    {
+                                                        Swal.fire({
+                                                            title: 'Are you sure?',
+                                                            text: "You won't be able to revert this!",
+                                                            icon: 'warning',
+                                                            timer:6000,
+                                                            showCancelButton: true,
+                                                            confirmButtonColor: '#3085d6',
+                                                            cancelButtonColor: '#d33',
+                                                            confirmButtonText: 'Yes, delete it!'
+                                                        }).then((result) => {
+                                                            if (result.isConfirmed) {
+                                                                Swal.fire(
+                                                                    'Deleted!',
+                                                                    'Your file has been deleted.',
+                                                                    'success')
+                                                               var url = '@Url.Action($"Delete","Rooms", new { id = room.Id })';
+                                                                window.location.href = url;
+                                                            }
+                                                            else {
+                                                                swal.close();
+                                                                swal("Cancelled", "Your imaginary file is safe :)", "error");
+                                                            }
+                                                        })
+                                                    }
+                        </script>
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-outline-primary">Book Now</button>
+                    }
+</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+            }
+        </div>
+    </form>
+</div> 
+
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+<div class="container">
+    @Html.PagedListPager((IPagedList)Model.Rooms, i => Url.Action("All", new { i }),
+        new PagedListRenderOptions
+        {
+            DisplayLinkToIndividualPages = true,
+            DisplayPageCountAndCurrentLocation = false,
+            MaximumPageNumbersToDisplay = 10,
+            LiElementClasses = new string[] { "page-item" },
+            PageClasses = new string[] { "page-link" },
+        })
+</div>

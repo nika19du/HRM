@@ -1,0 +1,72 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model HRM.InputModel.Users.UsersCreateInputViewModel
+@{
+    ViewData["Title"] = "Create";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-login main-center">
+    <h3>Create New Account</h3>
+    <form class="" asp-controller="Users" asp-action="Create">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="confirm" class="cols-sm-2 control-label">User Name</label>
+                    <input type="text" asp-for="UserName" class="form-control" placeholder="User Name *" value="" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="confirm" class="cols-sm-2 control-label">First Name</label>
+                    <input type="text" asp-for="FirstName" class="form-control" placeholder="First Name *" value="" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="confirm" class="cols-sm-2 control-label">MiddleName</label>
+                    <input type="text" asp-for="MiddleName" class="form-control" placeholder="Middle Name *" value="" />
+                    <span asp-validation-for="MiddleName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="confirm" class="cols-sm-2 control-label">Surname</label>
+                    <input type="text" asp-for="Surname" class="form-control" placeholder="Surname *" value="" />
+                    <span asp-validation-for="Surname" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="confirm" class="cols-sm-2 control-label">Phone Number</label>
+                    <input type="text" asp-for="PhoneNumber" class="form-control" placeholder="Phone Number *" value="" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="confirm" class="cols-sm-2 control-label">Email</label>
+                    <input asp-for="Email" class="form-control" placeholder="Email *" value="" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="confirm" class="cols-sm-2 control-label">EGN</label>
+                    <input type="text" asp-for="EGN" class="form-control" placeholder="Your EGN *" value="" />
+                    <span asp-validation-for="EGN" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="confirm" class="cols-sm-2 control-label">Password</label>
+                    <input type="password" asp-for="Password" class="form-control" placeholder="Your Password *" value="" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
+                    <input type="password" asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password *" value="" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div> 
+                <br />
+                    <div class="checkbox form-control">
+                        <label asp-for="IsItActive">
+                            <input asp-for="IsItActive" />
+                            Is it active
+                        </label>
+                    </div> 
+                <br />
+            </div>                 
+            <button class="btn-block btn-dark btn-lg" asp-action="Create" asp-controller="Users" type="submit">Create</button>
+        </div>
+    </form>
+</div>

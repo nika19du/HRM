@@ -1,0 +1,39 @@
+﻿
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model HRM.InputModel.RoomTypes.RoomTypesCreateInputModel
+@{
+    //ViewData["Title"] = "Create";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <div class="tt-wrapper-inner">
+        <br />
+        <h3 class="tt-title-border">
+            Create type
+            @*@ViewData["Title"] Of Room*@
+        </h3>
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Name"></label>
+                        <div class="tt-value-wrapper">
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <a asp-area="Administration"
+                           asp-controller="RoomTypes"
+                           asp-action="All"
+                           class="btn btn-info btn-width-lg">
+                            Back
+                        </a> 
+                        <button type="submit" asp-controller="RoomTypes" asp-action="Create" class="btn btn-primary">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> 

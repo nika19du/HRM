@@ -1,0 +1,164 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model HRM.ViewModel.Users.UsersAllViewModel
+
+@{
+    ViewData["Title"] = "All";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using X.PagedList.Mvc.Core.Common;
+
+<h2 class="d-flex justify-content-center" style="color: #36A4E7;">Find Users.<small>It's always easy</small></h2>
+<div class="tt-search">
+    <form class="search-wrapper"
+          asp-area="Administration"
+          asp-controller="Users"
+          asp-action="All"
+          enctype="multipart/form-data">
+        <br />
+        <div class="search-form">
+            <input type="text"
+                   asp-for="Search"
+                   class="tt-search__input"
+                   placeholder="Search type of room" />
+            <button runat="server" asp-for="Search" id="btnSubmit" class="btn btn-mini">
+                <i class="fa fa-forward" aria-hidden="true"></i>
+            </button>
+        </div>
+    </form>
+</div>
+
+<table class="table table-striped table-hover border-bottom">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users.First().UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users.First().FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users.First().MiddleName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users.First().Surname)
+            </th>
+            <th>
+                Is It Active
+            </th>
+            <th>
+                EGN
+            </th>
+            <th class="d-none d-md-table-cell text-center">
+                Email
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int count = 0;
+        }
+
+        @if (Model.Users.Count() != 0)
+        {
+
+            @foreach (var item in Model.Users)
+            {
+                count++;
+                <tr>
+                    <td class="d-none d-lg-table-cell">
+                        @count
+                    </td>
+                    <td onclick="location.href='/Administration/Users/Edit/@item.Id';" onmouseover="this.style.cursor='pointer'">
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td onclick="location.href='/Administration/Users/Edit/@item.Id';" onmouseover="this.style.cursor='pointer'">
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td onclick="location.href='/Administration/Users/Edit/@item.Id';" onmouseover="this.style.cursor='pointer'">
+                        @Html.DisplayFor(modelItem => item.MiddleName)
+                    </td>
+                    <td onclick="location.href='/Administration/Users/Edit/@item.Id';" onmouseover="this.style.cursor='pointer'">
+                        @Html.DisplayFor(modelItem => item.Surname)
+                    </td>
+                    <td class="custom-control custom-checkbox text-center d-none d-md-table-cell">
+                        <input type="checkbox" asp-for="@item.IsItActive">
+                        <input type="checkbox" class="custom-control-input disabled" asp-for="@item.IsItActive">
+                        <label class="custom-control-label disabled">
+                            <span class="sr-only">Never</span>
+                        </label>
+                    </td>
+                    <td onclick="location.href='/Administration/Users/Edit/@item.Id';" onmouseover="this.style.cursor='pointer'">
+                        @Html.DisplayFor(modelItem => item.EGN)
+                    </td>
+                    <td class="d-none d-lg-table-cell" onclick="location.href='/Administration/Users/Edit/@item.Id';" onmouseover="this.style.cursor='pointer'">
+                        @Html.DisplayFor(modelItem => item.TextEmail)
+                    </td>
+                    <td>
+                        <form class="btn" onclick="fnConfirm();">
+                            <button type="button" class="btn btn-danger btn-block" onclick="fnConfirm();" runat="server" id="lbDelete"
+                                    data-url="@Url.Action($"Delete/{item.Id}")">
+                                <i class="fas fa-trash-alt" onclick="fnConfirm();"></i>
+                                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+                                <script type="text/javascript">
+                                                    function fnConfirm()
+                                                    {
+                                                        Swal.fire({
+                                                            title: 'Are you sure?',
+                                                            text: "You won't be able to revert this!",
+                                                            icon: 'warning',
+                                                            timer:6000,
+                                                            showCancelButton: true,
+                                                            confirmButtonColor: '#3085d6',
+                                                            cancelButtonColor: '#d33',
+                                                            confirmButtonText: 'Yes, delete it!'
+                                                        }).then((result) => {
+                                                            if (result.isConfirmed) {
+                                                                Swal.fire(
+                                                                    'Deleted!',
+                                                                    'Your file has been deleted.',
+                                                                    'success')
+                                                               var url = '@Url.Action($"Delete","Users", new { id = item.Id })';
+                                                                window.location.href = url;
+                                                            }
+                                                            else {
+                                                                swal.close();
+                                                                swal("Cancelled", "Your imaginary file is safe :)", "error");
+                                                            }
+                                                        })
+                                                    }
+                                </script>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="10" class="text-center">
+                    No Users Found
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+<div class="container">
+    @Html.PagedListPager((IPagedList)Model.Users, i => Url.Action("All", new { i }),
+        new PagedListRenderOptions
+        {
+            DisplayLinkToIndividualPages = true,
+            DisplayPageCountAndCurrentLocation = false,
+            MaximumPageNumbersToDisplay = 10,
+            LiElementClasses = new string[] { "page-item" },
+            PageClasses = new string[] { "page-link" },
+        })
+</div>

@@ -1,0 +1,66 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model HRM.InputModel.Rooms.RoomsCreateInputViewModel
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+<div class="main-center">
+    <h3>Edit Room</h3>
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <label asp-for="Type">Choose room type</label>
+                @Html.DropDownListFor(model => model.Type, ViewBag.Type as SelectList, "--Select Type--", new { @class = "form-control" })
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label asp-for="Capacity">Capacity</label>
+                <input type="number" class="form-control is-valid" min="1" placeholder="Capacity"
+                       asp-for="Capacity" required>
+                <span class="text-danger" asp-validation-for="Capacity"></span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label asp-for="Number">Number</label>
+                <input type="number" asp-for="Number" min="1" class="form-control is-valid" placeholder="Number"
+                       aria-describedby="inputGroupPrepend33" required>
+                <span class="text-danger is-invalid" asp-validation-for="Number"> </span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <label asp-for="AdultPrice">Addult price</label>
+                <input type="text" asp-for="AdultPrice" class="form-control is-valid" placeholder="Addult price"
+                       required>
+                <span class="text-danger is-invalid" asp-validation-for="AdultPrice"> </span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label asp-for="ChildPrice">Child price</label>
+                <input type="text" asp-for="ChildPrice" class="form-control is-valid" placeholder="Child price"
+                       required>
+                <span class="text-danger" asp-validation-for="ChildPrice"></span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="d-flex justify-content-center">
+                    <label asp-for="Image">Choose Image</label>
+                </div>
+                <input type="file" id="picture"
+                       class="form-control text-primary text-center"
+                       placeholder="Select Image"
+                       asp-for="@Model.Image">
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" asp-for="IsItAvailable" class="custom-control-input is-valid" id="invalidCheck33">
+                <label class="custom-control-label" for="invalidCheck33">Is It Available?</label>
+                <span class="text-danger"> </span>
+            </div>
+            <div class="invalid-feedback">
+                You must agree before submitting.
+            </div>
+        </div>
+        <button class="btn btn-primary" value="Edit" type="submit">Submit</button>
+    </form>
+</div>

@@ -1,0 +1,86 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model HRM.ViewModel.RoomTypes.RoomTypesAllViewModel
+@{
+    ViewData["Title"] = "All";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+<br />
+<div class="tt-custom-mobile-indent container">
+    <div class="tt-categories-title">
+        <div class="tt-title">@ViewData["Title"]</div>
+        <a asp-area="Administration"
+           asp-controller="RoomTypes"
+           asp-action="Create"
+           class="btn btn-secondary ml-auto">
+            <i class="fas fa-plus"></i>
+        </a>
+        &nbsp;
+        <div class="tt-search">
+            <form class="search-wrapper"
+                  asp-area="Administration"
+                  asp-controller="RoomTypes"
+                  asp-action="All"
+                  method="get">
+                <br/>
+                <div class="search-form">
+                    <input type="text"
+                           asp-for="Search"
+                           class="tt-search__input"
+                           placeholder="Search type of room" />
+                    <button runat="server" asp-for="Search" id="btnSubmit" class="btn btn-mini">
+                        <i class="fa fa-forward" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="tt-categories-list">
+        <div class="row">
+            @foreach (var item in Model.Types)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="tt-item">
+                        <div class="tt-item-header">
+                            <ul class="tt-list-badge">
+                                <li>
+                                    <a asp-area=""
+                                       asp-controller="RoomTypes"
+                                       asp-action="Details"
+                                       asp-route-id="@item.Id">
+                                        <span class="tt-color01 tt-badge">@item.Name</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tt-item-layout">
+                            <div class="innerwrapper">
+                                Lets discuss about @item.Name.
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-auto">
+                                    <a asp-area="Administration"
+                                       asp-controller="RoomTypes"
+                                       asp-action="Edit"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-info">
+                                        Edit
+                                    </a>
+                                    <a asp-area="Administration"
+                                          asp-controller="RoomTypes"
+                                          asp-action="Delete"
+                                          asp-route-id="@item.Id" method="get"
+                                          class="btn">
+                                        <button type="submit" class="btn btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
