@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HRM.Services.Users.Model;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace HRM.Services.Users
 {
@@ -15,11 +16,13 @@ namespace HRM.Services.Users
     {
         private readonly Context context;
         private readonly IMapper mapper;
+        private readonly UserManager<User> _userManager;
 
-        public UsersService(Context context,IMapper mapper)
+        public UsersService(Context context,IMapper mapper, UserManager<User> _userManager)
         {
             this.context = context;
             this.mapper = mapper;
+            this._userManager = _userManager;
         }
 
         public async Task CreateAsync(string username,string EGN,string phoneNumber,string email,string password,string confirmPassword,
@@ -36,9 +39,10 @@ namespace HRM.Services.Users
                 Surname=surname, 
                 IsItActive=isItActive,
                 NominationDate=DateTime.UtcNow
-            };
-            context.Users.Add(newUser);
-            await context.SaveChangesAsync();
+            }; 
+            var result = await _userManager.CreateAsync(newUser, password);
+            if(result.Succeeded)
+            await _userManager.AddToRoleAsync(newUser, "Client"); 
         }
 
         public async Task DeleteAsync(string id)

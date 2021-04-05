@@ -26,7 +26,7 @@ namespace HRM.Web.Controllers
             IdentityRole userRole = new IdentityRole()
             {
                 Id = Guid.NewGuid().ToString(),
-                Name = "User"
+                Name = "Client"
             };
             IdentityRole adminRole = new IdentityRole()
             {

@@ -1,7 +1,7 @@
-﻿@using Microsoft.AspNetCore.Identity 
+﻿@using Microsoft.AspNetCore.Identity
 @{
     ViewData["Title"] = "Home Page";
-} 
+}
 <br />
 @if (User.IsInRole("Admin"))
 {
@@ -11,25 +11,25 @@
             <p class="lead">Enjoy on your work!</p>
             <hr />
             <div class="row">
-                <a class="col-md-3 pointer-event"  asp-area="Administration" asp-controller="Rooms" asp-action="All">
+                <a class="col-md-3 pointer-event" asp-area="Administration" asp-controller="Rooms" asp-action="All">
                     <div class="card-counter danger">
                         <i class="fa fa-home"></i>
                         <span class="count-numbers">@ViewData["RoomCount"]</span>
                         <span class="count-name">Rooms</span>
                     </div>
                 </a>
-                <a class="col-md-3 pointer-event" asp-area="Administration" asp-controller="RoomTypes" asp-action="All"> 
-                        <div class="card-counter success">
-                            <i class="fa fa-database"></i>
-                            <span class="count-numbers">@ViewData["RoomTypesCount"]</span>
-                            <span class="count-name">Room Types</span>
-                        </div> 
+                <a class="col-md-3 pointer-event" asp-area="Administration" asp-controller="RoomTypes" asp-action="All">
+                    <div class="card-counter success">
+                        <i class="fa fa-database"></i>
+                        <span class="count-numbers">@ViewData["RoomTypesCount"]</span>
+                        <span class="count-name">Room Types</span>
+                    </div>
                 </a>
-                <a class="col-md-3 pointer-event"asp-area="Administration" asp-controller="Users" asp-action="All">
+                <a class="col-md-3 pointer-event" asp-area="Administration" asp-controller="Users" asp-action="All">
                     <div class="card-counter info">
                         <i class="fa fa-user"></i>
                         <span class="count-numbers">@ViewData["UserCount"]</span>
-                        <span class="count-name" >Users</span>
+                        <span class="count-name">Users</span>
                     </div>
                 </a>
             </div>
@@ -39,5 +39,19 @@
 }
 else
 {
-    
+    <div class="jumbotron text-center bgimg" style="margin-bottom: 0;color: #8A3450;text-align: left" ;background-color:#F7D3BF>
+        <p class="lead"><i>This site is made for you! To enjoy of your hobbies, interests!</i></p>
+        <h5>It's all for you and your preference. Have fun!</h5>
+        <div class="row">
+            <a class="col-md-3 pointer-event" asp-area="Administration" asp-controller="Rooms" asp-action="All">
+                <div class="card-counter danger">
+                    <i class="fa fa-home"></i>
+                    <span class="count-numbers">@ViewData["RoomCount"]</span>
+                    <span class="count-name">Rooms</span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <br />
+
 }

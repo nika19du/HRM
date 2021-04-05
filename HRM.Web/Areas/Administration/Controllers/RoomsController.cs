@@ -6,6 +6,7 @@ using HRM.Services.Cloudinaries;
 using HRM.Services.Rooms;
 using HRM.Services.Rooms.Model;
 using HRM.ViewModel.Rooms;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -16,7 +17,8 @@ using X.PagedList;
 
 namespace HRM.Web.Areas.Administration.Controllers
 {
-    public class RoomsController : AdminController
+    [Area("Administration")]
+    public class RoomsController:Controller
     {
         private readonly IRoomsService service;
         private readonly IMapper mapper;
@@ -31,12 +33,15 @@ namespace HRM.Web.Areas.Administration.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
+
         public IActionResult Create()
         {
             ViewData["Type"] = new SelectList(this.context.RoomTypes, "Id", "Name");
             return this.View(new RoomsCreateInputViewModel());
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")] 
         public async Task<IActionResult> Create(RoomsCreateInputViewModel model)
         {
             if (!ModelState.IsValid)
@@ -49,6 +54,7 @@ namespace HRM.Web.Areas.Administration.Controllers
             await service.CreateAsync(model.Capacity, model.IsItAvailable, model.Type, pictureUrl, model.AdultPrice, model.ChildPrice, model.Number);
             return this.RedirectToAction(nameof(All));
         }
+
         public async Task<IActionResult> All(string submitBtn, string search = null, int? i = null)
         {
             var types = context.RoomTypes.ToList();
@@ -94,7 +100,7 @@ namespace HRM.Web.Areas.Administration.Controllers
             viewModel.Rooms = roomList;
             return View(viewModel);
         }
-
+        [Authorize(Roles = "Admin")] 
         public async Task<IActionResult> Delete(string id)
         {
             var isExisting = await this.service.IsExistingAsync(id);
@@ -107,6 +113,7 @@ namespace HRM.Web.Areas.Administration.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")] 
         public async Task<IActionResult> Edit(string id)
         {
             var room = await this.service.GetByIdAsync<Room>(id);
@@ -122,6 +129,7 @@ namespace HRM.Web.Areas.Administration.Controllers
             return View(roomsCreateInputViewModel);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")] 
         public async Task<IActionResult> Edit(RoomsCreateInputViewModel model)
         {
             if (!this.ModelState.IsValid)

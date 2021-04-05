@@ -20,5 +20,8 @@ namespace HRM.Data.Models
 set; }
         public bool IsItActive { get; set; }
         public DateTime ReleaseDate { get; set; }
+
+        public bool IsItOld { get; set; }
+        public virtual List<Reservation> Reservations { get; set; } = new List<Reservation>();
     }
 }

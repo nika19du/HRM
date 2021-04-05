@@ -6,6 +6,7 @@ namespace HRM.Data
 {
     public class Context : IdentityDbContext
     {
+        //  Enable-Migrations -Context HRM.Data.ModelsEnable-Migrations -Context HRM.Data.Models
         public Context(DbContextOptions<Context> options) : base(options)
         { }
 
@@ -14,9 +15,7 @@ namespace HRM.Data
 #pragma warning restore CS0114 // 'Context.Users' hides inherited member 'IdentityUserContext<IdentityUser, string, IdentityUserClaim<string>, IdentityUserLogin<string>, IdentityUserToken<string>>.Users'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword.
         public DbSet<Room> Rooms { get; set; }
         public DbSet<RoomType> RoomTypes { get; set; }
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<Reservation> Reservations { get; set; }
-
+        public DbSet<Reservation> Reservations { get; set; } 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Reservation>()

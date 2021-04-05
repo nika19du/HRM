@@ -4,6 +4,7 @@ using HRM.Data.Models;
 using HRM.Services.Cloudinaries;
 using HRM.Services.Mapping;
 using HRM.Services.Providers;
+using HRM.Services.Reservations;
 using HRM.Services.Rooms;
 using HRM.Services.RoomTypes;
 using HRM.Services.Users;
@@ -66,6 +67,7 @@ namespace HRM.Web
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IRoomsService, RoomsService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
+            services.AddTransient<IReservationsService,ReservationsService>();
 
             Account cloudinaryCredentials = new Account(
                this.Configuration["Cloudinary:CloudName"],
@@ -82,7 +84,14 @@ namespace HRM.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                var context = serviceScope.ServiceProvider
+                      .GetRequiredService<Context>();
+
+                context.Database.EnsureCreated();
+            }
+                AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

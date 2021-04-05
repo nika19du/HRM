@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HRM.Data.Models;
+using HRM.InputModel.Reservations;
 using HRM.InputModel.Rooms;
 using HRM.InputModel.RoomTypes;
 using HRM.Services.Rooms.Model;
@@ -34,8 +35,8 @@ namespace HRM.Web
             this.CreateMap<Room, RoomsInfoViewModel>().ReverseMap(); 
             this.CreateMap<Room, Room>(); 
             this.CreateMap<RoomsInfoViewModel,RoomsCreateInputViewModel>();
-            this.CreateMap<RoomServiceModel, Room>(); 
-
+            this.CreateMap<RoomServiceModel, Room>();
+            this.CreateMap<Room, BookCreateInputViewModel>();
             #endregion
         }
     }

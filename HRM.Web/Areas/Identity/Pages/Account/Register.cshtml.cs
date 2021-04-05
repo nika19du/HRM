@@ -120,7 +120,7 @@ namespace HRM.Web.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _userManager.AddToRoleAsync(user, "User");
+                        await _userManager.AddToRoleAsync(user, "Client");
                     }
 
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
