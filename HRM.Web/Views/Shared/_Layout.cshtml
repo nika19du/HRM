@@ -20,9 +20,9 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-white bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">HRM.Web</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">HRM</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -35,6 +35,49 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        @if (this.User.Identity.IsAuthenticated)
+                        {//i tuka je imame dropdown menu
+                            <li class="nav-item active">
+                                <div class="dropdown show">
+                                    <a class="nav-link active" asp-action="All" asp-area="Administration"
+                                       asp-controller="Rooms"
+                                       role="button"
+                                       id="dropdownMenuLink"
+                                       data-toggle="dropdown"
+                                       aria-haspopup="true"
+                                       aria-expanded="false">
+                                        Rooms
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-item" asp-area="Administration" asp-controller="Rooms" asp-action="All"><span>All Rooms</span></a>
+                                         
+                                    </div>
+                                </div>
+                            </li>
+
+                            @*@if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item active">
+                                    <div class="dropdown show">
+                                        <a class="nav-link active"asp-area="Administration"
+                                           asp-action="All" asp-controller="Users"
+                                           role="button"
+                                           id="dropdownMenuLink"
+                                           data-toggle="dropdown"
+                                           aria-haspopup="true"
+                                           aria-expanded="false">
+                                            Users
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <a class="dropdown-item"asp-area="Administration" asp-controller="Users" asp-action="Index"><span>All Users</span></a>
+                                            <a class="dropdown-item"asp-area="Administration" asp-controller="Users" asp-action="Create"><span>Create User</span></a>
+                                        </div>
+                                    </div>
+                                </li>
+                            }*@
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

@@ -26,7 +26,7 @@ namespace HRM.Services.Users
         }
 
         public async Task CreateAsync(string username,string EGN,string phoneNumber,string email,string password,string confirmPassword,
-            string firstName,string middleName,string surname,bool isItActive)
+            string firstName,string middleName,string surname,bool isItActive,bool IsItOld)
         {
             User newUser = new User()
             {
@@ -38,6 +38,7 @@ namespace HRM.Services.Users
                 MiddleName=middleName,
                 Surname=surname, 
                 IsItActive=isItActive,
+                IsItOld= IsItOld,
                 NominationDate=DateTime.UtcNow
             }; 
             var result = await _userManager.CreateAsync(newUser, password);
@@ -87,6 +88,6 @@ namespace HRM.Services.Users
         public async Task<bool> IsUsernameUsedAsync(string username)
           => await this.context.Users.AnyAsync(u => u.UserName == username);
         public async Task<bool> IsExistingAsync(string id)
-        => await this.context.RoomTypes.AnyAsync(x => x.Id == id);
+        => await this.context.Users.AnyAsync(x => x.Id == id);
     }
 }

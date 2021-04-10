@@ -1,4 +1,5 @@
-﻿using HRM.Services.Rooms.Model;
+﻿using HRM.Data.Models;
+using HRM.Services.Rooms.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,7 +14,7 @@ namespace HRM.Services.Rooms
         Task DeleteAsync(string id);
         Task<bool> IsExistingAsync(string id);
         Task<TModel> GetByIdAsync<TModel>(string id);
-        Task<IEnumerable<TModel>> GetAllAsync<TModel>(string search = null);
-        Task<bool> IsUsernameUsedAsync(string username);
+        Task<IEnumerable<TModel>> GetAllAsync<TModel>(string search = null );
+        Task<bool> IsUsernameUsedAsync(string username); 
     }
 }

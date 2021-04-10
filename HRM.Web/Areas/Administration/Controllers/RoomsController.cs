@@ -18,7 +18,7 @@ using X.PagedList;
 namespace HRM.Web.Areas.Administration.Controllers
 {
     [Area("Administration")]
-    public class RoomsController:Controller
+    public class RoomsController : Controller
     {
         private readonly IRoomsService service;
         private readonly IMapper mapper;
@@ -41,7 +41,7 @@ namespace HRM.Web.Areas.Administration.Controllers
             return this.View(new RoomsCreateInputViewModel());
         }
         [HttpPost]
-        [Authorize(Roles = "Admin")] 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(RoomsCreateInputViewModel model)
         {
             if (!ModelState.IsValid)
@@ -55,13 +55,14 @@ namespace HRM.Web.Areas.Administration.Controllers
             return this.RedirectToAction(nameof(All));
         }
 
-        public async Task<IActionResult> All(string submitBtn, string search = null, int? i = null)
+        public async Task<IActionResult> All(string submitBtn, string asc, string desc, string search = null, int? i = null)
         {
-            var types = context.RoomTypes.ToList();
-            var rooms = await this.service.GetAllAsync<Room>(search); 
             RoomType data = new RoomType();
             List<Room> activeOrNo = new List<Room>();
             IEnumerable<RoomsInfoViewModel> roomsInfoViewModel = new List<RoomsInfoViewModel>();
+            var types = context.RoomTypes.ToList();
+            var rooms = await this.service.GetAllAsync<Room>(search);
+
             if (submitBtn == "NotActive" || submitBtn != null)
             {
                 foreach (var item in rooms.Where(x => x.IsItAvailable == false))
@@ -71,6 +72,14 @@ namespace HRM.Web.Areas.Administration.Controllers
                     activeOrNo.Add(item);
                 }
                 var map = this.mapper.Map(activeOrNo, roomsInfoViewModel);
+                if (asc == "Ascending")
+                {
+                    map.OrderBy(x => x.Capacity);
+                }
+                else if (desc == "Descending")
+                {
+                    map.OrderByDescending(x => x.Capacity);
+                }
                 var vM = new RoomsAllViewModel
                 {
                     Search = search,
@@ -83,14 +92,19 @@ namespace HRM.Web.Areas.Administration.Controllers
             }
             else if (submitBtn == null || submitBtn == "Active")
             {
+                if (asc == "Ascending")
+                   rooms= rooms.OrderBy(x => x.Capacity);
+                if (desc == "Descending")
+                    rooms = rooms.OrderByDescending(x=>x.Capacity);
                 foreach (var room in rooms.Where(x => x.IsItAvailable == true))
-                { 
+                {
                     data = types.Where(x => x.Id == room.Type).FirstOrDefault();
                     room.RoomType = data;
                     activeOrNo.Add(room);
                 }
-            } 
+            }
             var maping = this.mapper.Map(activeOrNo, roomsInfoViewModel);
+             
             var viewModel = new RoomsAllViewModel
             {
                 Search = search,
@@ -100,7 +114,8 @@ namespace HRM.Web.Areas.Administration.Controllers
             viewModel.Rooms = roomList;
             return View(viewModel);
         }
-        [Authorize(Roles = "Admin")] 
+
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(string id)
         {
             var isExisting = await this.service.IsExistingAsync(id);
@@ -113,7 +128,7 @@ namespace HRM.Web.Areas.Administration.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")] 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(string id)
         {
             var room = await this.service.GetByIdAsync<Room>(id);
@@ -129,7 +144,7 @@ namespace HRM.Web.Areas.Administration.Controllers
             return View(roomsCreateInputViewModel);
         }
         [HttpPost]
-        [Authorize(Roles = "Admin")] 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(RoomsCreateInputViewModel model)
         {
             if (!this.ModelState.IsValid)

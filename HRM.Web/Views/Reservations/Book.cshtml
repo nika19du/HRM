@@ -3,6 +3,15 @@
     ViewData["Title"] = "Booking";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@{
+    var error = TempData["CustomError"].ToString();
+
+
+} 
+@if (error != "") { 
+    <p class="text-danger">* @error</p>
+}
 <div class="container">
     <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb30 text-center">
@@ -10,7 +19,6 @@
         </div>
     </div>
     <div class="row">
-        <div asp-validation-summary="All" class="text-danger"></div>
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb30">
             <div class="tour-booking-form">
                 <form class="" asp-controller="Reservations" asp-action="Book">
@@ -21,61 +29,54 @@
                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                             <div class="form-group">
                                 <label class="control-label required" for="select">Check-in</label>
-                                <input type="date" asp-for="CheckIn" class="form-control" placeholder="Check-In *" value="" />
+                                <input type="date" min="@DateTime.Today.ToString("yyyy-MM-dd")" onchange="CheckDates()" asp-for="CheckIn" class="form-control" required placeholder="Check-In *" value="" />
                                 <span asp-validation-for="CheckIn" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                             <div class="form-group">
                                 <label class="control-label" for="datepicker">Check out</label>
-                                <input type="date" asp-for="CheckOut" placeholder="Check-Out *" class="form-control" required>
+                                <input type="date" min="@DateTime.Today.ToString("yyyy-MM-dd")" onchange="CheckDates()" asp-for="CheckOut" placeholder="Check-Out *" class="form-control" required>
                                 <span asp-validation-for="CheckIn" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="select">Number of Persons:</label>
-                            <input min="1" max="@Model.Number" asp-for="Number" disabled/>
-                            <div class="col"> 
+                            <input asp-for="Capacity" disabled />
+                            <div class="col">
                                 <div class="checkbox form-control">
                                     <label asp-for="IsItAllInclusive">
                                         <input asp-for="IsItAllInclusive" />
                                         All Inclusive
                                     </label>
                                 </div>
-                            </div>
-                            <div class="col">
-                                <div class="checkbox form-control">
-                                    <label asp-for="IncludeBreakfast">
-                                        <input asp-for="IncludeBreakfast" />Breakfast
-                                    </label>
+                                <div class="col">
+                                    <div class="checkbox form-control">
+                                        <label asp-for="IncludeBreakfast">
+                                            <input asp-for="IncludeBreakfast" />Breakfast
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col">
                             <label class="control-label">Number of Addults:</label>
-                            <input type="number" id="Addl"  onclick="fnAddult();" min="1"  max="@Model.Number" asp-for="AddultCount" />
-                            <div class="col-">
-                                <label class="control-label required"for="select">Number of Childs:</label>
-                                <input type="number" id="Child" onclick="fnChild();" min="1" max="@Model.Number" asp-for="ChildCount" />
+                            <input type="number" min="0" max="@Model.Capacity" asp-for="AddultCount" />
+                            @*<input type="number" id="Addl" onclick="fnAddult(this);" min="1" max="@Model.Number" asp-for="AddultCount" />*@
+                            <div class="col">
+                                <label class="control-label">Number of Childs:</label>
+                                <input type="number" min="0" max="@Model.Capacity" asp-for="ChildCount" />
 
-                                <script type="text/javascript">
-                                    var Addlvalue;
-                                    var Childvalue
-                                    function fnAddult() {
-                                        Addlvalue = document.getElementById('Addl').value;
-                                        console.log(Addlvalue);
-                                    }
-                                    function fnChild() { 
-                                        Childvalue = document.getElementById('Child').value;
-                                        console.log(Childvalue);
-                                    }
-                                    
-                                </script> 
                             </div>
-                        </div> 
+                        </div>
                     </div>
+                    <button class="btn btn-primary" value="Book" type="submit">Submit</button>
+
                 </form>
             </div>
         </div>
     </div>
 </div>
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }}

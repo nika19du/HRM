@@ -3,7 +3,7 @@ a.navbar-brand {
     white-space: normal;
     text-align: center;
     word-break: break-all;
-}
+} 
 .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
     background-color: lightgray;
 } 

@@ -56,14 +56,21 @@
                     <label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
                     <input type="password" asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password *" value="" />
                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                </div> 
+                </div>
                 <br />
-                    <div class="checkbox form-control">
-                        <label asp-for="IsItActive">
-                            <input asp-for="IsItActive" />
-                            Is it active
-                        </label>
-                    </div> 
+                <div class="checkbox form-control">
+                    <label asp-for="IsItActive">
+                        <input asp-for="IsItActive" />
+                        Is it active
+                    </label>
+                </div>
+                <hr />
+                <div class="checkbox form-control">
+                    <label asp-for="IsItOld">
+                        <input asp-for="IsItOld" />
+                        Is it Addult
+                    </label>
+                </div>
                 <br />
             </div>                 
             <button class="btn-block btn-dark btn-lg" asp-action="Create" asp-controller="Users" type="submit">Create</button>

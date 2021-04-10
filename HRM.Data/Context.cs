@@ -1,6 +1,8 @@
 ﻿using HRM.Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Text.Json;
 
 namespace HRM.Data
 {
@@ -18,10 +20,10 @@ namespace HRM.Data
         public DbSet<Reservation> Reservations { get; set; } 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            //builder.Entity<Reservation>()
+            //   .H(x => new { x.CustomerId, x.RoomId });
             builder.Entity<Reservation>()
-               .HasKey(x => new { x.CustomerId, x.RoomId });
-            builder.Entity<Reservation>()
-                .HasOne(x => x.Customer).WithMany(x => x.Reservations).HasForeignKey(x => x.CustomerId);
+                .HasOne(x => x.Customer).WithMany(x => x.Reservations).HasForeignKey(x => x.CustomerId); 
 
             base.OnModelCreating(builder);
         }

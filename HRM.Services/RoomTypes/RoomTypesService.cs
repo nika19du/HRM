@@ -33,7 +33,14 @@ namespace HRM.Services.RoomTypes
 
         public async Task DeleteAsync(string id)
         {
-            var type =await this.GetByIdAsync<RoomType>(id);
+            var type =await this.GetByIdAsync<RoomType>(id); 
+            foreach (var room in context.Rooms)
+            {
+                if (room.Type==type.Id)
+                {
+                    context.Rooms.Remove(room);
+                }
+            }
             this.context.RoomTypes.Remove(type);
             await this.context.SaveChangesAsync();
         }
@@ -69,7 +76,7 @@ namespace HRM.Services.RoomTypes
                .FirstOrDefaultAsync();
         }
 
-        public async Task<bool> IsExistingAsync(string name)
-          => await this.context.RoomTypes.AnyAsync(x => x.Name == name);
+        public async Task<bool> IsExistingAsync(string id)
+          => await this.context.RoomTypes.AnyAsync(x => x.Id == id);
     }
 }

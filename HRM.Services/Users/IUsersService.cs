@@ -10,7 +10,7 @@ namespace HRM.Services.Users
     public interface IUsersService
     {
         Task CreateAsync(string username, string EGN, string phoneNumber, string email, string password, string confirmPassword,
-            string firstName, string middleName, string surname,bool isItActive);
+            string firstName, string middleName, string surname,bool isItActive,bool IsItOld);
         Task ModifyAsync(UserServiceModel user);
         Task DeleteAsync(string id);
         Task<bool> IsExistingAsync(string id);

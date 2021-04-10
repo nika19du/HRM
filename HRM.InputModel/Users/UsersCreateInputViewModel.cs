@@ -20,6 +20,7 @@ namespace HRM.InputModel.Users
         [MaxLength(10)]
         public string EGN { get; set; } 
         public bool IsItActive { get; set; }
+        public bool IsItOld { get; set; }
         [Required]
         [Display(Name = "Username")]
         public string UserName { get; set; }

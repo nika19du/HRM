@@ -7,6 +7,7 @@ namespace HRM.Data.Models
 {
     public class Room
     {
+        [Key]
         public string Id { get; set; }
         [Required]
         public int Capacity { get; set; }

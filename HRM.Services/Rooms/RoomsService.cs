@@ -48,13 +48,23 @@ namespace HRM.Services.Rooms
 
         public async Task<IEnumerable<TModel>> GetAllAsync<TModel>(string search = null)
         {
+           
             var queryable = this.context.Rooms
              .AsNoTracking();
-
-            if (!String.IsNullOrWhiteSpace(search))
+            if (search != null)
             {
-                queryable = queryable.Where(x => x.Type == search);
-            } 
+                var types = context.RoomTypes.FirstOrDefault(x => x.Name == search || x.Name.Contains(search));
+                foreach (var roomType in context.RoomTypes)
+                {
+                    if (roomType.Name == search || roomType.Name.Contains(search))
+                    {
+                        if (queryable.Any(x => x.Type == roomType.Id))
+                        {
+                            queryable = queryable.Where(x => x.Type == roomType.Id || x.Type.Contains(roomType.Id));
+                        }
+                    }
+                }
+            }
             var rooms = await queryable.ProjectTo<TModel>(this.mapper.ConfigurationProvider).ToListAsync(); 
             return rooms;
         }

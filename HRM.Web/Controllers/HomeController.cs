@@ -1,11 +1,16 @@
 ﻿using HRM.Data;
+using HRM.Data.Models;
+using HRM.Services.Rooms;
+using HRM.ViewModel.Rooms;
 using HRM.Web.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc; 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace HRM.Web.Controllers
 {
@@ -14,14 +19,17 @@ namespace HRM.Web.Controllers
 
         private readonly Context context;
         private readonly RoleManager<IdentityRole> roleManager;
-
-        public HomeController(Context cnt, RoleManager<IdentityRole> role)
+        private readonly UserManager<User> userManager;
+        private readonly IRoomsService roomService;
+        public HomeController(Context cnt, RoleManager<IdentityRole> role, UserManager<User> userManager,IRoomsService roomService)
         {
             this.context = cnt;
             this.roleManager = role;
+            this.userManager = userManager;
+            this.roomService = roomService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search=null, int? i = null)
         {
             IdentityRole userRole = new IdentityRole()
             {
@@ -39,7 +47,15 @@ namespace HRM.Web.Controllers
             ViewData["RoomCount"] = context.Rooms.Count();
             ViewData["RoomTypesCount"] =context.RoomTypes.Count();
 
-            return View();
+            IEnumerable<RoomsInfoViewModel> rooms = await this.roomService.GetAllAsync<RoomsInfoViewModel>(search);
+            var viewModel = new RoomsAllViewModel
+            {
+                Search = search,
+                Rooms = rooms.Where(x=>x.IsItAvailable==true)
+            };
+            IPagedList<RoomsInfoViewModel> roomList = viewModel.Rooms.ToList().ToPagedList(i ?? 1, 6);
+            viewModel.Rooms = roomList;
+            return View(viewModel); 
         }
 
         public IActionResult Privacy()

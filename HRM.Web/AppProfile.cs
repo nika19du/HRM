@@ -5,6 +5,7 @@ using HRM.InputModel.Rooms;
 using HRM.InputModel.RoomTypes;
 using HRM.Services.Rooms.Model;
 using HRM.Services.Users.Model;
+using HRM.ViewModel.Reservations;
 using HRM.ViewModel.Rooms;
 using HRM.ViewModel.RoomTypes;
 using HRM.ViewModel.Users;
@@ -22,6 +23,7 @@ namespace HRM.Web
             #region RoomTypes
             this.CreateMap<RoomType,RoomTypesInfoViewModel>();
             this.CreateMap<RoomType, RoomTypesEditInputModel>();
+            this.CreateMap<RoomType, RoomType>();
             #endregion
 
             #region
@@ -37,6 +39,9 @@ namespace HRM.Web
             this.CreateMap<RoomsInfoViewModel,RoomsCreateInputViewModel>();
             this.CreateMap<RoomServiceModel, Room>();
             this.CreateMap<Room, BookCreateInputViewModel>();
+            #endregion
+            #region
+            this.CreateMap<Reservation, ReservationViewModel>();
             #endregion
         }
     }

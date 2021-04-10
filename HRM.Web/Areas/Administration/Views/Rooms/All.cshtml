@@ -5,7 +5,6 @@
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 @using X.PagedList.Mvc.Core.Common;
-
 <style>
     h1 {
         font-size: 12px;
@@ -46,12 +45,51 @@
 <div class="col-md-9">
     <div class="row">
         <div class="col-md-12">
-            <a asp-area="Administration"
-               asp-controller="Rooms"
-               asp-action="Create"
-               class="btn btn-secondary ml-auto">
-                <i class="fas fa-plus"></i>
-            </a>
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-area="Administration"
+                   asp-controller="Rooms"
+                   asp-action="Create"
+                   class="btn btn-secondary ml-auto">
+                    <i class="fas fa-plus"></i>
+                </a>
+
+            }
+            <form class="search-wrapper"
+                  asp-area="Administration"
+                  asp-controller="Rooms"
+                  asp-action="All"
+                  enctype="multipart/form-data">
+                <br />
+                <div class="search-form">
+                    <input type="text"
+                           asp-for="Search"
+                           class="tt-search__input"
+                           placeholder="Search room type" />
+                    <button runat="server" asp-for="Search" id="btnSubmit" class="btn btn-mini">
+                        <i class="fa fa-forward" aria-hidden="true"></i>
+                    </button>
+                    <label>Order Capacity</label> 
+                    <a name="asc" value="Ascending" class="pointer" onclick="ascPath();">
+                        ▼
+                        <script type="text/javascript">
+                            function ascPath() {
+                                asc = "Ascending";
+                                window.location.href = "/Administration/Rooms/All?asc=" + asc;
+                            }
+                        </script>
+                    </a>
+                    <a name="desc" value="Descending" class="pointer" onclick="descPath();">
+                        ▲
+                        <script type="text/javascript">
+                            function descPath() {
+                                desc = "Descending";
+                                window.location.href = "/Administration/Rooms/All?desc=" + desc;
+                            }
+                        </script>
+                    </a>
+                </div> 
+            </form>
             <h2> Rooms: @Model.Rooms.Count() properties found </h2>
             <p> 3 Reasons to Visit: gambling, entertainment & relaxation </p>
         </div>
@@ -62,13 +100,13 @@
                 <ul class="nav nav-justified nav-pills">
                     <li class="nav-item">
                         <a class="nav-link active" href="/Administration/Rooms/All" value="Active" name="submitBtn">Active</a>
-                    </li> 
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link bg-light pointer" onclick="notActiveConfirm();" value="NotActive" name="submitBtn">
-                            Not Active 
+                            Not Active
                             <script type="text/javascript">
                                 function notActiveConfirm() {
-                                    submitBtn = "NotActive"; 
+                                    submitBtn = "NotActive";
                                     window.location.href = "/Administration/Rooms/All?submitBtn=" + submitBtn;
                                 }
                             </script>
@@ -143,8 +181,8 @@
                                     else
                                     {
                                         //
-                                        <button type="button" asp-area = "Home" asp-controller = "Reservations" asp-action = "Book" asp-route-id = "@room.Id" class="btn btn-outline-primary">Book Now</button>
-                                        @Html.ActionLink("Book", "Book", "Reservations", new { area = "Home",id=room.Id})
+                                        <button type="button" asp-area="Home" asp-controller="Reservations" asp-action="Book" asp-route-id="@room.Id" class="btn btn-outline-primary">Book Now</button>
+                                        @Html.ActionLink("Book", "Book", "Reservations", new { area = "Home", id = room.Id })
 
                                     }
                                 </div>

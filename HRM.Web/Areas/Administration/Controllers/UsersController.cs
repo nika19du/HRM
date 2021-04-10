@@ -36,7 +36,7 @@ namespace HRM.Web.Areas.Administration.Controllers
             {
                 return this.View(model);
             }
-            await service.CreateAsync(model.UserName,model.EGN,model.PhoneNumber,model.Email,model.Password,model.ConfirmPassword,model.FirstName,model.MiddleName,model.Surname,model.IsItActive);
+            await service.CreateAsync(model.UserName,model.EGN,model.PhoneNumber,model.Email,model.Password,model.ConfirmPassword,model.FirstName,model.MiddleName,model.Surname,model.IsItActive,model.IsItOld);
             return this.RedirectToAction(nameof(All));
         }
 
@@ -52,7 +52,8 @@ namespace HRM.Web.Areas.Administration.Controllers
             viewModel.Users = usrList;
             return View(viewModel);
         }
-        [HttpGet]
+
+        [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
             var isExisting = await this.service.IsExistingAsync(id);
