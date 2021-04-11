@@ -69,7 +69,7 @@
                     <button runat="server" asp-for="Search" id="btnSubmit" class="btn btn-mini">
                         <i class="fa fa-forward" aria-hidden="true"></i>
                     </button>
-                    <label>Order Capacity</label> 
+                    <label>Order Capacity</label>
                     <a name="asc" value="Ascending" class="pointer" onclick="ascPath();">
                         ▼
                         <script type="text/javascript">
@@ -88,7 +88,7 @@
                             }
                         </script>
                     </a>
-                </div> 
+                </div>
             </form>
             <h2> Rooms: @Model.Rooms.Count() properties found </h2>
             <p> 3 Reasons to Visit: gambling, entertainment & relaxation </p>
@@ -180,10 +180,9 @@
                                     }
                                     else
                                     {
-                                        //
-                                        <button type="button" asp-area="Home" asp-controller="Reservations" asp-action="Book" asp-route-id="@room.Id" class="btn btn-outline-primary">Book Now</button>
-                                        @Html.ActionLink("Book", "Book", "Reservations", new { area = "Home", id = room.Id })
-
+                                        <button type="button" class="btn btn-outline-warning btn-block">
+                                            @Html.ActionLink("Book", "Book", "Reservations", new { area = "Home", id = room.Id})
+                                        </button>
                                     }
                                 </div>
                             </div>

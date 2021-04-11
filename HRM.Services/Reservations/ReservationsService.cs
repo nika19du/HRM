@@ -29,7 +29,7 @@ namespace HRM.Services.Reservations
             {
                 return;
             }
-            decimal price = addultCount * room.AdultPrice + childCount * room.ChildPrice + room.AdultPrice;
+            decimal price = addultCount * room.AdultPrice + childCount * room.ChildPrice;
             if (includeAllInclusive)
             {
                 var allIncl = (price / 100) * 15;

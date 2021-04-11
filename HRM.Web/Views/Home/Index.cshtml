@@ -70,15 +70,15 @@ else if (User.IsInRole("Client"))
 <hr />
 <div class="d-flex align-items-center mt-3">
     <p class="mx-3 mb-0 h3">You can search all rooms and make a reservation</p>
-    <form asp-area="Home" asp-controller="Rooms" asp-action="Index" method="get">
+    <form asp-area="Administration" asp-controller="Rooms" asp-action="All" method="get">
         <input type="submit" class="btn btn-primary" value="See All" />
     </form>
 </div>
 <ul class="list-inline text-dark d-flex flex-wrap flex-column flex-md-row w-100">
     @foreach (var roomCard in Model.Rooms)
-    {
+    { 
         <li class="pb-3 col-md-6 col-12">
-            <a asp-area="Home" asp-controller="Rooms" asp-action="Details" asp-route-id="@roomCard.Id"
+            <a  asp-area="Home" asp-controller="Reservations" asp-action="Book" asp-route-id="@roomCard.Id"
                class="content-heading clearfix media box-hover text-decoration-none border border-info rounded blue-card">
                 <div class="d-flex flex-md-row flex-column">
                     <div class="col-md-6 col-12 align-items-center d-flex justify-content-center">

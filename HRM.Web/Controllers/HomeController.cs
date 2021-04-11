@@ -28,9 +28,11 @@ namespace HRM.Web.Controllers
             this.userManager = userManager;
             this.roomService = roomService;
         }
-
+        
+        //showing in index page info about rooms 
         public async Task<IActionResult> Index(string search=null, int? i = null)
         {
+            //set-up user roles, for only one time
             IdentityRole userRole = new IdentityRole()
             {
                 Id = Guid.NewGuid().ToString(),

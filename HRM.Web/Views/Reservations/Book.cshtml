@@ -6,12 +6,13 @@
 
 @{
     var error = TempData["CustomError"].ToString();
-
-
+    var errorBool = TempData["CheckBooleans"].ToString();
 } 
 @if (error != "") { 
     <p class="text-danger">* @error</p>
 }
+@if (errorBool != "")
+{ <p class="text-danger">* @errorBool</p>}
 <div class="container">
     <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb30 text-center">
@@ -46,14 +47,14 @@
                             <div class="col">
                                 <div class="checkbox form-control">
                                     <label asp-for="IsItAllInclusive">
-                                        <input asp-for="IsItAllInclusive" />
+                                        <input asp-for="IsItAllInclusive" class="cl" onclick="CheckIt();"/>
                                         All Inclusive
                                     </label>
                                 </div>
                                 <div class="col">
                                     <div class="checkbox form-control">
                                         <label asp-for="IncludeBreakfast">
-                                            <input asp-for="IncludeBreakfast" />Breakfast
+                                            <input class="breakfast" asp-for="IncludeBreakfast" onclik="CheckBreakfast();"/>Breakfast
                                         </label>
                                     </div>
                                 </div>
@@ -80,3 +81,23 @@
 @section Scripts{
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }}
+<script> 
+    function CheckIt() {
+        if (!$('.cl').data('clicked')) {
+            $('.breakfast').prop('disabled', true);
+        }
+        else {
+            $(".breakfast").removeAttr('disabled');
+        }
+        $('.cl').data('clicked', true);
+    };
+    function CheckBreakfast() {
+        if (!$('.breakfast').data('clicked')) {
+            $('.cl').prop('disabled', true);
+        }
+        else {
+            $(".cl").removeAttr('disabled');
+        }
+        $('.cl').data('clicked', true);
+    };
+</script>

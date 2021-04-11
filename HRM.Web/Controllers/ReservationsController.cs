@@ -59,7 +59,11 @@ namespace HRM.Web.Controllers
             BookCreateInputViewModel viewModel = new BookCreateInputViewModel(); 
             var maping = this.mapper.Map(room, viewModel);
             TempData["Max"] = room.Capacity;
-            if(TempData["CustomError"]==null)
+
+            if (TempData["CheckBooleans"] == null)
+                TempData["CheckBooleans"] = "";
+
+            if (TempData["CustomError"]==null)
             TempData["CustomError"] = "";
             return this.View("~/Views/Reservations/Book.cshtml",maping);
         }
@@ -87,6 +91,12 @@ namespace HRM.Web.Controllers
             {
                 return this.BadRequest();
             }
+            if(booking.IncludeBreakfast==true && booking.IsItAllInclusive == true)
+            {
+                TempData["CheckBooleans"]= "Select only one: all-inclusive or breakfast!";
+                this.ModelState.AddModelError("Name", TempData["CheckBooleans"].ToString());
+                return RedirectToAction("Book", "Reservations", new { Id = booking.Id });
+            }
             int max = Convert.ToInt32(TempData["Max"]);
             if((booking.AddultCount ==max && max== booking.ChildCount) ||(booking.AddultCount==max && booking.ChildCount!=0))
             {
@@ -100,7 +110,7 @@ namespace HRM.Web.Controllers
 
             return RedirectToAction("Index","Reservations");
         }
-
+        //Details 
         public async Task<IActionResult> Details(string id)
         {
             var user = await userManager.GetUserAsync(User);

@@ -24,7 +24,7 @@ namespace HRM.Services.Users
             this.mapper = mapper;
             this._userManager = _userManager;
         }
-
+        //Creating user profile
         public async Task CreateAsync(string username,string EGN,string phoneNumber,string email,string password,string confirmPassword,
             string firstName,string middleName,string surname,bool isItActive,bool IsItOld)
         {
@@ -53,6 +53,7 @@ namespace HRM.Services.Users
             await this.context.SaveChangesAsync();
         }
 
+        //Getting users by search-name,surname,lastname
         public async Task<IEnumerable<TModel>> GetAllAsync<TModel>(string search = null)
         {
             var queryable = this.context.Users

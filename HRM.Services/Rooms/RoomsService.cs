@@ -22,6 +22,10 @@ namespace HRM.Services.Rooms
             this.mapper = mapper;
         }
 
+        /// <summary>
+        /// Adds room to the database
+        /// </summary> 
+        /// <returns>Task representing the operation</returns>
         public async Task CreateAsync(int capacity, bool isItAvailable, string type, string image, decimal adultPrice, decimal childPrice, int number)
         { 
             Room newRoom = new Room()
@@ -39,13 +43,21 @@ namespace HRM.Services.Rooms
             await context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Removes room from the database
+        /// </summary>
+        /// The room to delete id</param>
+        /// <returns>Task representing the operation</returns>
         public async Task DeleteAsync(string id)
         { 
             var room = await this.GetByIdAsync<Room>(id);
             this.context.Rooms.Remove(room);
             await this.context.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// Finds all rooms that have the searched type
+        /// </summary> 
+        /// object or null if not found</returns>
         public async Task<IEnumerable<TModel>> GetAllAsync<TModel>(string search = null)
         {
            
@@ -68,7 +80,7 @@ namespace HRM.Services.Rooms
             var rooms = await queryable.ProjectTo<TModel>(this.mapper.ConfigurationProvider).ToListAsync(); 
             return rooms;
         }
-
+        //Find room by id.
         public async Task<TModel> GetByIdAsync<TModel>(string id)
         {
             return await this.context.Rooms
@@ -83,7 +95,7 @@ namespace HRM.Services.Rooms
 
         public async Task<bool> IsUsernameUsedAsync(string username)
              => await this.context.Rooms.AnyAsync(u => u.Type == username);
-
+        //Updating room class
         public async Task ModifyAsync(RoomServiceModel room)
         {
             var data = await context.Rooms.FirstOrDefaultAsync(x => x.Id == room.Id); 

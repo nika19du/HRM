@@ -63,10 +63,9 @@ namespace HRM.Web.Areas.Administration.Controllers
             await this.service.EditAsync(model.Id, model.Name);
             return this.RedirectToAction("All", "RoomTypes", new { id = model.Id, area = "Administration" });
         }
-
-       // [HttpPost]
+         
         public async Task<IActionResult> Delete(string id)
-        {
+        {//when i delete type of room also is deleted a room with this type.:)
             var isExisting = await this.service.IsExistingAsync(id);
             if (isExisting == false)
             {
